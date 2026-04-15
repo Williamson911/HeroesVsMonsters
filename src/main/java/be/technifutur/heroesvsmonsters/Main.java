@@ -21,6 +21,7 @@ public class Main {
         while (hero.isAlive()) {
 
             Zone zone = world.getCurrentZone();
+            hero.recupererAmes(zone.getName());
 
             System.out.println("\n🌍 Zone : " + zone.getName());
 
@@ -69,11 +70,11 @@ public class Main {
 
             System.out.println("⚔ Rencontre : " + monster.getNom());
 
-            engine.start(hero, monster);
+            engine.start(hero, monster, zone.getName());
 
         } else {
             System.out.println("🌿 Rien trouvé");
         }
     }
-    WorldMap world = WorldFactory.createWorld();
+
 }

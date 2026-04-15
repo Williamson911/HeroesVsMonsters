@@ -4,6 +4,7 @@ import be.technifutur.heroesvsmonsters.enemies.Monsters;
 import be.technifutur.heroesvsmonsters.items.Item;
 import be.technifutur.heroesvsmonsters.skills.Skill;
 import be.technifutur.heroesvsmonsters.weapons.Armes;
+import be.technifutur.heroesvsmonsters.world.Bloodstain;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -123,5 +124,33 @@ public abstract class Heroes extends Personnage {
 
     public void consumeMana(int cost) {
         getEndurance().reduire(cost);
+    }
+    private Bloodstain bloodstain;
+    public void mourir(String zoneName) {
+
+        if (bloodstain != null) {
+            System.out.println("💀 Vous avez perdu définitivement vos anciennes âmes...");
+        }
+
+        bloodstain = new Bloodstain(ames, zoneName);
+
+        System.out.printf("💀 Vous perdez %d âmes...%n", ames);
+
+        ames = 0;
+    }
+    public void recupererAmes(String currentZone) {
+
+        if (bloodstain == null) return;
+
+        if (bloodstain.getZoneName().equals(currentZone)) {
+
+            int recovered = bloodstain.getAmes();
+
+            ames += recovered;
+
+            System.out.println("🩸 Vous récupérez " + recovered + " âmes !");
+
+            bloodstain = null;
+        }
     }
 }

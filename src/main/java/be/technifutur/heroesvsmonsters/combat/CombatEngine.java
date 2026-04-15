@@ -2,7 +2,7 @@ package be.technifutur.heroesvsmonsters.combat;
 
 import be.technifutur.heroesvsmonsters.characters.Heroes;
 import be.technifutur.heroesvsmonsters.enemies.Monsters;
-import be.technifutur.heroesvsmonsters.skills.SkillAction;
+import be.technifutur.heroesvsmonsters.skills.*;
 import be.technifutur.heroesvsmonsters.utils.InputUtils;
 
 import java.util.List;
@@ -24,7 +24,7 @@ public class CombatEngine {
     // ─────────────────────────────────────────────
     // ENTRY POINT
     // ─────────────────────────────────────────────
-    public boolean start(Heroes hero, Monsters monster) {
+    public boolean start(Heroes hero, Monsters monster, String zoneName) {
 
         System.out.println("\n⚔ " + hero.getNom() + " VS " + monster.getNom());
 
@@ -41,7 +41,7 @@ public class CombatEngine {
             monsterTurn(hero, monster);
         }
 
-        return resolve(hero, monster);
+        return resolve(hero, monster, zoneName);
     }
 
     // ─────────────────────────────────────────────
@@ -82,13 +82,13 @@ public class CombatEngine {
     }
 
     // ─────────────────────────────────────────────
-    // RESOLVE COMBAT
+    // RESOLVE
     // ─────────────────────────────────────────────
-    private boolean resolve(Heroes hero, Monsters monster) {
+    private boolean resolve(Heroes hero, Monsters monster, String zoneName) {
 
         if (!hero.isAlive()) {
             System.out.println("\n💀 Vous êtes mort...");
-            hero.perdreAmes();
+            hero.mourir(zoneName);
             return false;
         }
 
@@ -107,7 +107,7 @@ public class CombatEngine {
 
         System.out.println(hero.getNom()
                 + " HP: " + hero.getVitalite().getValeur()
-                + " | Mana: " + hero.getEndurance());
+                + " | Stamina: " + hero.getEndurance().getValeur());
 
         System.out.println(monster.getNom()
                 + " HP: " + monster.getVitalite().getValeur());

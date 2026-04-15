@@ -8,23 +8,22 @@ import java.util.List;
 public class DragonRouge extends Boss {
 
     public DragonRouge() {
-        super("Dragon Rouge", 5000, 0.4);
+        super("Dragon Rouge", 5000, 0.6);
 
-        getVitalite().addBonus(1500);
-        getForce().addBonus(70);
-        getResistance().addBonus(40);
+        getVitalite().addBonus(2000);
+        getForce().addBonus(90);
+        getResistance().addBonus(60);
     }
 
     @Override
-    protected List<Item> getPossibleDrops() {
+    protected List<Item> getGuaranteedDrops() {
         return List.of(
-                new Armes("Épée Draconique", 140, "Dragon Sword", 40, 20, 5, 4)
+                new Armes("Drake Sword", 110, "Sword", 30, 10, 0, 3)
         );
     }
 
     @Override
-    protected void phaseTwo() {
-        // rage dragon
-        getForce().addBonus(40);
+    protected List<Item> getPossibleDrops() {
+        return List.of();
     }
 }

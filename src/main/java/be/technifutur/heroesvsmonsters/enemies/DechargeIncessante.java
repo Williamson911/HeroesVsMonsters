@@ -3,30 +3,32 @@ package be.technifutur.heroesvsmonsters.enemies;
 import be.technifutur.heroesvsmonsters.items.Consumable;
 import be.technifutur.heroesvsmonsters.items.Item;
 import be.technifutur.heroesvsmonsters.items.Titanites;
+import be.technifutur.heroesvsmonsters.weapons.Armes;
 
 import java.util.List;
 
-public class Hydre extends Boss {
+public class DechargeIncessante extends Boss {
 
-    public Hydre() {
-        super("Hydra", 4000, 0.6);
+    public DechargeIncessante() {
+        super("Décharge Incessante", 20000, 0.7);
 
         getVitalite().addBonus(2000);
-        getForce().addBonus(80);
-        getResistance().addBonus(70);
+        getForce().addBonus(85);
+        getResistance().addBonus(50);
     }
 
     @Override
     protected List<Item> getGuaranteedDrops() {
         return List.of(
-                new Consumable("Dragon Scale")
+                new Consumable("Âme de la Décharge Incessante")
         );
     }
 
     @Override
     protected List<Item> getPossibleDrops() {
         return List.of(
-                new Titanites("Blue Titanite Chunk", 2)
+                new Titanites("Large Titanite", 5),
+                new Armes("Gold-Hemmed Set", 0, "Armor", 0, 10, 40, 1)
         );
     }
 }

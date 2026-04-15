@@ -2,18 +2,17 @@ package be.technifutur.heroesvsmonsters.enemies;
 
 import be.technifutur.heroesvsmonsters.items.Consumable;
 import be.technifutur.heroesvsmonsters.items.Item;
-import be.technifutur.heroesvsmonsters.items.Titanites;
 
 import java.util.List;
 
-public class Hydre extends Boss {
+public class DragonMortVivant extends Boss {
 
-    public Hydre() {
-        super("Hydra", 4000, 0.6);
+    public DragonMortVivant() {
+        super("Undead Dragon", 3500, 0.6);
 
-        getVitalite().addBonus(2000);
-        getForce().addBonus(80);
-        getResistance().addBonus(70);
+        getVitalite().addBonus(1800);
+        getForce().addBonus(70);
+        getResistance().addBonus(50);
     }
 
     @Override
@@ -25,8 +24,6 @@ public class Hydre extends Boss {
 
     @Override
     protected List<Item> getPossibleDrops() {
-        return List.of(
-                new Titanites("Blue Titanite Chunk", 2)
-        );
+        return List.of();
     }
 }
