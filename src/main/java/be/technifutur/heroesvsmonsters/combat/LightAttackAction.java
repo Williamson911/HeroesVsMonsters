@@ -12,7 +12,7 @@ public class LightAttackAction implements CombatAction {
 
     @Override
     public int enduranceCost() {
-        return 15;
+        return 2;
     }
 
     @Override
