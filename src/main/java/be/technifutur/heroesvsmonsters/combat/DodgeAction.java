@@ -3,11 +3,11 @@ package be.technifutur.heroesvsmonsters.combat;
 import be.technifutur.heroesvsmonsters.characters.Heroes;
 import be.technifutur.heroesvsmonsters.enemies.Monsters;
 
-public class AttackAction implements CombatAction {
+public class DodgeAction implements CombatAction {
 
     @Override
     public String name() {
-        return "Attaquer";
+        return "Dodge";
     }
 
     @Override
@@ -18,16 +18,15 @@ public class AttackAction implements CombatAction {
     @Override
     public void execute(Heroes hero, Monsters monster) {
 
-        if (!hero.getEndurance().hasEnough(20)) {
-            System.out.println("❌ Pas assez de stamina !");
+        if (!hero.getEndurance().hasEnough(enduranceCost())) {
+            System.out.println("❌ Pas assez de stamina pour dodge !");
             return;
         }
 
-        hero.getEndurance().consume(20);
+        hero.getEndurance().consume(enduranceCost());
 
-        int dmg = hero.attaquer();
-        monster.takeDamage(dmg);
+        hero.setDodging(true); // à ajouter dans Heroes
 
-        System.out.println("⚔ " + hero.getNom() + " inflige " + dmg);
+        System.out.println("💨 You dodged the next attack!");
     }
 }

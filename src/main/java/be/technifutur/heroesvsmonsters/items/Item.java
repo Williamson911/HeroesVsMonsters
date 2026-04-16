@@ -14,4 +14,15 @@ public abstract class Item {
     }
 
     public abstract int utiliser(Heroes hero);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Item item)) return false;
+        return nom.equals(item.nom);
+    }
+
+    @Override
+    public int hashCode() {
+        return nom.hashCode();
+    }
 }

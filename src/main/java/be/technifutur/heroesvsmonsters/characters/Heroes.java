@@ -2,6 +2,7 @@ package be.technifutur.heroesvsmonsters.characters;
 
 import be.technifutur.heroesvsmonsters.enemies.Monsters;
 import be.technifutur.heroesvsmonsters.items.Item;
+import be.technifutur.heroesvsmonsters.items.Potion;
 import be.technifutur.heroesvsmonsters.skills.Skill;
 import be.technifutur.heroesvsmonsters.weapons.Armes;
 import be.technifutur.heroesvsmonsters.world.Bloodstain;
@@ -14,8 +15,9 @@ import java.util.Map;
 
 public abstract class Heroes extends Personnage {
     private final Map<String, Integer> cooldowns = new HashMap<>();
-    private final List<Item> inventaire = new ArrayList<>();
+
     private int ames = 0;
+    private int level = 1;
 
     private Armes armeEquipee;
 
@@ -34,29 +36,66 @@ public abstract class Heroes extends Personnage {
         return ames;
     }
 
+    // ── Niveau ───────────────────────────
+
+    public int getLevel() {
+        return level;
+    }
+
+    /** Coût DS : 200 âmes au niveau 1, +100 par niveau supplémentaire */
+    public int getLevelUpCost() {
+        return 200 + (level - 1) * 100;
+    }
+
+    public boolean canLevelUp() {
+        return ames >= getLevelUpCost();
+    }
+
+    public void increaseLevel() {
+        ames -= getLevelUpCost();
+        level++;
+    }
+
     // ── Loot ─────────────────────────────
+    public void addItem(Item item) {
+        inventaire.merge(item, 1, Integer::sum);
+    }
+    public void removeItem(Item item) {
+        int qty = inventaire.getOrDefault(item, 0);
 
-    public void looter(Monsters monstre) {
+        if (qty <= 1) {
+            inventaire.remove(item);
+        } else {
+            inventaire.put(item, qty - 1);
+        }
+    }
+    public void looter(Monsters monster) {
 
-        System.out.println("\n══ LOOT ══");
+        int ames = monster.getAmesReward();
+        gagnerAmes(ames);
 
-        gagnerAmes(monstre.getAmesReward());
+        System.out.println("💰 +" + ames + " âmes");
 
-        for (Item drop : monstre.generateLoot()) {
-            inventaire.add(drop);
-            System.out.println("Obtenu : " + drop.getNom());
+        for (Item item : monster.generateLoot()) {
+
+            addItem(item);
+
+            System.out.println("🎁 Loot : " + item.getNom());
         }
     }
 
     // ── Inventaire ───────────────────────
 
-    public List<Item> getInventaire() {
-        return Collections.unmodifiableList(inventaire);
+    private Map<Item, Integer> inventaire = new HashMap<>();
+
+    public Map<Item, Integer> getInventaire() {
+        return Collections.unmodifiableMap(inventaire);
+    }
+    public void removeItem(int index) {
+        inventaire.remove(index);
     }
 
-    public void ajouterItem(Item item) {
-        inventaire.add(item);
-    }
+
 
     // ── Équipement ───────────────────────
 
@@ -66,11 +105,10 @@ public abstract class Heroes extends Personnage {
 
     public void equiper(Armes arme) {
 
-        if (!inventaire.contains(arme)) {
+        if (!inventaire.containsKey(arme)) {
             System.out.println("Vous ne possédez pas cette arme !");
             return;
         }
-
         this.armeEquipee = arme;
         System.out.println("Arme équipée : " + arme.getNom());
     }
@@ -152,5 +190,44 @@ public abstract class Heroes extends Personnage {
 
             bloodstain = null;
         }
+    }
+    public boolean quickUsePotion() {
+
+        for (Item item : inventaire.keySet()) {
+
+            if (item instanceof Potion potion) {
+                potion.utiliser(this);
+                removeItem(item);
+
+                System.out.println("⚡ Potion utilisée !");
+                return true;
+            }
+        }
+
+        return false;
+    }
+    private boolean dodging = false;
+
+    public boolean isDodging() {
+        return dodging;
+    }
+
+    public void setDodging(boolean dodging) {
+        this.dodging = dodging;
+    }
+    public int getStaminaRegen() {
+
+        if (dodging) return 15;      // reward timing play
+        if (defending) return 12;    // passive recovery
+        return 10;                    // normal regen
+    }
+    private boolean parryWindow = false;
+
+    public boolean isParryWindow() {
+        return parryWindow;
+    }
+
+    public void setParryWindow(boolean parryWindow) {
+        this.parryWindow = parryWindow;
     }
 }

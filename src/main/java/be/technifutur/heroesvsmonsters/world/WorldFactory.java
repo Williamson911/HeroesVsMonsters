@@ -19,7 +19,8 @@ public class WorldFactory {
         zones.add(new Zone("Sanctuaire de Lige-feu",
                 List.of(),
                 null,
-                0.0)); // hub
+                0.0,
+                true)); // hub + bonfire
 
         zones.add(new Zone("Village Mort-vivants",
                 List.of(new Zombie(), new Rat()),

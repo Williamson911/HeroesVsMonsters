@@ -2,15 +2,42 @@ package be.technifutur.heroesvsmonsters.stats;
 
 public class Endurance extends Stat {
 
-    public Endurance(int baseValue) {
-        super(baseValue);
+    private int current;
+
+    public Endurance(int base) {
+        super(base);
+        this.current = base;
     }
 
-    public void consommer(int cost) {
-        reduire(cost);
+    public int getCurrent() {
+        return current;
     }
 
-    public void regenerer(int value) {
-        augmenter(value);
+    public int getMax() {
+        return getValeur();
+    }
+
+    public boolean hasEnough(int cost) {
+        return current >= cost;
+    }
+
+    public boolean use(int cost) {
+        if (current < cost) return false;
+
+        current -= cost;
+        return true;
+    }
+
+    public void regen(int amount) {
+        current = Math.min(getMax(), current + amount);
+    }
+
+    public void reset() {
+        current = getMax();
+    }
+
+
+    public void consume(int cost) {
+        current = Math.max(0, current - cost);
     }
 }

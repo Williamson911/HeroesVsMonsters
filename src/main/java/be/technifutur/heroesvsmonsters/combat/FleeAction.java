@@ -15,6 +15,11 @@ public class FleeAction implements CombatAction {
     }
 
     @Override
+    public int enduranceCost() {
+        return 0;
+    }
+
+    @Override
     public void execute(Heroes hero, Monsters monster) {
 
         boolean success = random.nextInt(100) <

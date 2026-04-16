@@ -23,6 +23,11 @@ public class SkillAction implements CombatAction {
     }
 
     @Override
+    public int enduranceCost() {
+        return 0;
+    }
+
+    @Override
     public void execute(Heroes hero, Monsters monster) {
 
         hero.reduceCooldowns();

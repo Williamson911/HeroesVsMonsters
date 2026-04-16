@@ -56,4 +56,18 @@ public abstract class Monsters extends Personnage {
     public boolean hasEscaped() {
         return escaped;
     }
+    private int posture = 0;
+    private int maxPosture = 100;
+
+    public void addPosture(int value) {
+        posture += value;
+    }
+
+    public boolean isStaggered() {
+        return posture >= maxPosture;
+    }
+
+    public void resetPosture() {
+        posture = 0;
+    }
 }

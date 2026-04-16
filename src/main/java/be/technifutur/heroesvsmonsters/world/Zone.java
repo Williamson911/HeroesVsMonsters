@@ -12,14 +12,23 @@ public class Zone {
     private final List<Monsters> monsters;
     private final Monsters boss;
     private final double encounterChance;
+    private final boolean bonfire;
+
+    private boolean bossDefeated = false;
+    private boolean visited      = false;
 
     private final Random random = new Random();
 
     public Zone(String name, List<Monsters> monsters, Monsters boss, double encounterChance) {
+        this(name, monsters, boss, encounterChance, false);
+    }
+
+    public Zone(String name, List<Monsters> monsters, Monsters boss, double encounterChance, boolean bonfire) {
         this.name = name;
         this.monsters = monsters;
         this.boss = boss;
         this.encounterChance = encounterChance;
+        this.bonfire = bonfire;
     }
 
     public String getName() {
@@ -40,5 +49,25 @@ public class Zone {
 
     public Monsters getBoss() {
         return boss;
+    }
+
+    public boolean isBonfire() {
+        return bonfire;
+    }
+
+    public boolean isVisited() {
+        return visited;
+    }
+
+    public void markVisited() {
+        this.visited = true;
+    }
+
+    public boolean isBossDefeated() {
+        return bossDefeated;
+    }
+
+    public void defeatBoss() {
+        this.bossDefeated = true;
     }
 }

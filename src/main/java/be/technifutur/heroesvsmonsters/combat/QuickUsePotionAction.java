@@ -1,13 +1,14 @@
 package be.technifutur.heroesvsmonsters.combat;
 
 import be.technifutur.heroesvsmonsters.characters.Heroes;
+import be.technifutur.heroesvsmonsters.combat.CombatAction;
 import be.technifutur.heroesvsmonsters.enemies.Monsters;
 
-public class DefendAction implements CombatAction {
+public class QuickUsePotionAction implements CombatAction {
 
     @Override
     public String name() {
-        return "Défendre";
+        return "Potion rapide";
     }
 
     @Override
@@ -15,17 +16,13 @@ public class DefendAction implements CombatAction {
         return 0;
     }
 
-    private static final int COST = 5;
-
     @Override
     public void execute(Heroes hero, Monsters monster) {
 
-        if (!hero.getEndurance().use(COST)) {
-            System.out.println("❌ Pas assez de stamina !");
-            return;
-        }
+        boolean used = hero.quickUsePotion();
 
-        hero.setDefending(true);
-        System.out.println("🛡 Vous vous mettez en garde");
+        if (!used) {
+            System.out.println("❌ Aucune potion disponible !");
+        }
     }
 }

@@ -15,6 +15,13 @@ public abstract class Personnage {
 
     public Personnage(String nom) {
         this.nom = nom;
+
+        this.vitalite = new Vitalite(100);
+        this.endurance = new Endurance(50);
+        this.force = new Force(10);
+        this.dexterite = new Dexterite(10);
+        this.intelligence = new Intelligence(10);
+        this.resistance = new Resistance(5);
     }
 
     public void setStats(Vitalite v, Endurance e, Force f,

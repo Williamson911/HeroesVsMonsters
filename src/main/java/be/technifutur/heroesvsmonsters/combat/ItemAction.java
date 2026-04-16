@@ -6,7 +6,9 @@ import be.technifutur.heroesvsmonsters.enemies.Monsters;
 import be.technifutur.heroesvsmonsters.items.Item;
 import be.technifutur.heroesvsmonsters.utils.InputUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ItemAction implements CombatAction {
 
@@ -16,32 +18,36 @@ public class ItemAction implements CombatAction {
     }
 
     @Override
+    public int enduranceCost() {
+        return 0;
+    }
+
+    @Override
     public void execute(Heroes hero, Monsters monster) {
 
-        List<Item> items = hero.getInventaire();
+        Map<Item, Integer> items = hero.getInventaire();
 
         if (items.isEmpty()) {
-            System.out.println("Aucun item.");
+            System.out.println("❌ Aucun item");
             return;
         }
 
-        System.out.println("\n══ INVENTAIRE ══");
+        List<Item> list = new ArrayList<>(items.keySet());
 
-        for (int i = 0; i < items.size(); i++) {
-            System.out.printf("%d. %s%n", i + 1, items.get(i).getNom());
+        for (int i = 0; i < list.size(); i++) {
+            Item item = list.get(i);
+            int qty = items.get(item);
+            System.out.println((i + 1) + ". " + item.getNom() + " x" + qty);
         }
 
-        int choice = InputUtils.readIntInRange(
-                1,
-                items.size(),
-                "Choisissez un item : "
-        ) - 1;
+        int choice = InputUtils.readIntInRange(1, list.size(), "Choix : ") - 1;
 
-        Item item = items.get(choice);
+        Item item = list.get(choice);
 
-        int heal = item.utiliser(hero);
-        hero.heal(heal);
+        int value = item.utiliser(hero);
 
-        System.out.println("+" + heal + " PV");
+        System.out.println("✨ " + item.getNom() + " utilisé (" + value + ")");
+
+        hero.removeItem(item);
     }
 }
